@@ -1,0 +1,14 @@
+- Instructions:
+  - Name: "ADD"
+    Opcode: 0
+    Type: 0
+    Inputs:
+      - Register_I
+      - Register_I
+    exeStage: true
+    memStage: false
+    writeBackStage: True
+    moveStage: false
+
+
+  

@@ -4,6 +4,13 @@
 #include "pulse.h"
 #include "ram.h"
 
+struct MemBuses{
+    Bus* read;
+    Bus* write;
+    Bus* data;
+    Bus* address;
+};
+
 /**
 * The main struct that holds the cpu,
 * ram, buses and other hardware componenet
@@ -11,6 +18,7 @@
 typedef struct {
     Pulse* cpu;
     Ram* ram;
+    MemBuses* memBuses;
 } Pangea;
 
 /*
@@ -28,12 +36,12 @@ void pulse_pangea_shut_down(Pangea* pangea);
 /**
 * Defines the main loop for the processor execution
 */
-int pulse_pangea_main_loop(Pangea* pangea);
+void pulse_pangea_main_loop(Pangea* pangea);
 
-/*
-* Moves(Steps) the processor to next stage of execution
-*/
-int pulse_pangea_step(Pangea* pangea);
+MemBuses* pulse_pangea_init_mem_buses();
 
+void pulse_pangea_free_mem_buses(MemBuses* memBuses);
+
+void pulse_pangea_main_loop(Pangea* pangea);
 
 #endif

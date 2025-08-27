@@ -1,8 +1,0 @@
-[
-{
-  "directory": "/Users/mohamudmohamud/Downloads2/vm/pulse64/build",
-  "command": "/usr/bin/cc  -I/Users/mohamudmohamud/Downloads2/vm/pulse64/pulse64 -I/Users/mohamudmohamud/Downloads2/vm/pulse64/PUBLIC -I/Users/mohamudmohamud/Downloads2/vm/pulse64/include  -arch arm64 -o CMakeFiles/pulse64.dir/src/main.c.o -c /Users/mohamudmohamud/Downloads2/vm/pulse64/src/main.c",
-  "file": "/Users/mohamudmohamud/Downloads2/vm/pulse64/src/main.c",
-  "output": "CMakeFiles/pulse64.dir/src/main.c.o"
-}
-]
