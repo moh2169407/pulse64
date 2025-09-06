@@ -52,9 +52,9 @@ void pulse_core_fetch(Pulse* core, Ram* ram);
 
 InstructionInstance* pulse_core_decode(Pulse* core);
 
-void pulse_core_exe(Pulse* core, InstructionInstance* instance);
+void pulse_core_exe(InstructionInstance* instance);
 
-void pulse_core_move(Pulse* core, const InstructionInfo* info);
+void pulse_core_move(Pulse* core, InstructionInstance* instance);
 
-void pulse_core_mem_wb(Pulse* core, const InstructionInfo* info);
+void pulse_core_mem_wb(Pulse* core, InstructionInstance* instance);
 #endif 

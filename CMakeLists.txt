@@ -4,6 +4,17 @@ project(pulse64)
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# Path to the Python interpreter inside your venv
+set(PYTHON_VENV ${CMAKE_SOURCE_DIR}/script/venv/bin/python3)
+
+add_custom_command(
+    OUTPUT ${CMAKE_SOURCE_DIR}/src/isa_gen.c
+    COMMAND ${PYTHON_VENV} ${CMAKE_SOURCE_DIR}/script/generate_isa_files.py
+    DEPENDS ${CMAKE_SOURCE_DIR}/isa.yaml ${CMAKE_SOURCE_DIR}/script/generate_isa_files.py
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/script
+    COMMENT "Generating isa_gen.c from isa.yaml"
+)
+
 add_library(log STATIC lib/logger/src/log.c)
 target_compile_options(log PRIVATE -D LOG_USE_COLOR)
 

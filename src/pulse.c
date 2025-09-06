@@ -1,6 +1,7 @@
 #include "pulse.h"
 #include "bus.h"
 #include "isa_gen.h"
+#include "operand.h"
 #include "pangea.h"
 
 #include "../../svec/svec.h"
@@ -39,9 +40,9 @@ void pulse_core_run(Pulse* cpu) {
 void pulse_core_step(Pulse* core, Ram* ram) {
     pulse_core_fetch(core, ram);
     InstructionInstance* instance = pulse_core_decode(core);
-    pulse_core_exe(core, instance);
-    // pulse_core_move(core, info);
-    // pulse_core_mem_wb(core, info);
+    pulse_core_exe(instance);
+    pulse_core_move(core, instance);
+    pulse_core_mem_wb(core, instance);
 }
 
 void pulse_core_fetch(Pulse* core, Ram* ram) {
@@ -67,55 +68,77 @@ InstructionInstance* pulse_core_decode(Pulse* core) {
 
    const InstructionInfo* info = pulse_isa_get_instruction_info(context.opcode, context.type); 
 
-    InstructionInstance* instance = xmalloc(sizeof(*instance));
+    InstructionInstance* instance = pulse_isa_init_instruction_instance(info->inputOperandSize);
     instance->info = info;
+    instance->outputIdx = context.RC;
 
-    for (int i = 0; i < FORMAT_SIZE; i++) {
-        switch (info->format[i]) {
-        case OPERAND_NONE:
+    for (int i = 0; i < info->inputOperandSize; i++) {
+        OperandFormat format;
+        switch (info->source[i]) {
+            case SOURCE_NONE:
+                format.type = OPERAND_NONE;
             break;
-        case OPERAND_REGISTER_I:
-                if (i == 0) {
-                    instance->inputI[i] = pulse_register_get(core->registers, context.RB);
-                }
-                else if (i == 1) {
-                    instance->inputI[i] = pulse_register_get(core->registers, context.RA);
-                }
+            case SOURCE_RC_I:
+                format.data = pulse_register_int_get_adrs(core->registers, context.RC);
+                format.type = OPERAND_REGISTER_I;
             break;
-        case OPERAND_REGISTER_F:
+            case SOURCE_RC_F:
+                format.data = pulse_register_float_get_adrs(core->registers, context.RC);
+                format.type = OPERAND_REGISTER_F;
+            break;
+            case SOURCE_RB_I:
+                format.data = pulse_register_int_get_adrs(core->registers, context.RB);
+                format.type = OPERAND_REGISTER_I;
+            break;
+            case SOURCE_RB_F:
+                format.data = pulse_register_float_get_adrs(core->registers, context.RB);
+                format.type = OPERAND_REGISTER_F;
+              break;
+            case SOURCE_RA_I:
+                format.data = pulse_register_int_get_adrs(core->registers, context.RA);
+                format.type = OPERAND_REGISTER_I;
                 break;
-        case OPERAND_CONSTANT:
-            break;
-        case OPERAND_MEM:
+            case SOURCE_RA_F:
+                format.data = pulse_register_float_get_adrs(core->registers, context.RA);
+                format.type = OPERAND_REGISTER_F;
                 break;
-          break;
-        }
+            case SOURCE_CONSTANT:
+                format.data = &context.Const;
+                format.type = OPERAND_CONSTANT;
+              break;
+            }
+    instance->opformat[i] = format; 
     }
-
-
     return instance;
 }
 
-void pulse_core_exe(Pulse* core, InstructionInstance* instance) {
-
+void pulse_core_exe(InstructionInstance* instance) {
+    if (instance->info->usesExe) {
+        void* source1 = instance->opformat[0].data;
+        void* source2 = instance->opformat[1].data;
+        instance->info->alu_fn(source1, source2, instance->output);
+    }
 }
 
-void pulse_core_move(Pulse* core, const InstructionInfo* info) {
-
+void pulse_core_move(Pulse* core, InstructionInstance* instance) {
+    if (instance->info->branch) {
+        if (instance->branchTake) {
+            pulse_register_set_pc(core->registers, pulse_register_int_get(core->registers, instance->outputIdx));
+        }
+    }
+    if (instance->info->usesMove) {
+        void* source1 = instance->opformat[0].data;
+        void* source2 = instance->opformat[1].data;
+        instance->info->move_fn(source1, source2, instance->output);        
+    }
 }
 
-void pulse_core_mem_wb(Pulse* core, const InstructionInfo* info) {
+void pulse_core_mem_wb(Pulse* core, InstructionInstance* instance) {
+    if (instance->info->usesMem) {
 
+    }
+    if (instance->info->usesWb) {
+        pulse_registers_int_set(core->registers, instance->outputIdx, *(int64_t*) instance->output->data);
+    }
+    pulse_isa_free_instruction_instance(instance);
 }
-
-
-
-
-
-
-
-
-
-
-
-

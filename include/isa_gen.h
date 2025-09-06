@@ -5,39 +5,58 @@
 #include <stdbool.h>
 
 #include "alu.h"
+#include "operand.h"
 
 #define INSTRUCTION_LENGTH 150
 #define VARIANT_LENGTH 4
 
-typedef uint64_t (*handler) (uint64_t, uint64_t);
-
 typedef enum {
-    OPERAND_NONE = 0,
-    OPERAND_REGISTER_I,
-    OPERAND_REGISTER_F,
-    OPERAND_CONSTANT,
-    OPERAND_MEM
-} OperandType;
+    SOURCE_NONE = 0,
+    SOURCE_RC_I,
+    SOURCE_RC_F,
+    SOURCE_RB_I,
+    SOURCE_RB_F,
+    SOURCE_RA_I,
+    SOURCE_RA_F,
+    SOURCE_CONSTANT,
+} Sourcetype;
+
+typedef void (*handler) (void*, void*, OperandFormat*);
 
 typedef struct {
     uint8_t opcode;     /* binary opcode for instruction */
     uint8_t size;       /* the size defines variants for instructions */
-    handler handler_fn; /* A function pointer for handling instructions */
+    handler alu_fn; /* A function pointer for handling instructions */
+
+    handler move_fn;
+    int inputOperandSize;
+    Sourcetype source[2];
+
     bool usesSize;      /* A bool because not every instruction uses variants */
-    OperandType format[2];
+    bool usesExe;       /* Instruction uses the alu and execution stage */
+    bool usesMove;      /* Instruction uses the move stage */
+    bool usesWb;
+    bool usesMem;
+    bool branch;
 } InstructionInfo;
+
 
 typedef struct {
     const InstructionInfo* info;
-    uint64_t inputI[2];
-    double inputF[2];
-    uint64_t output;
+    OperandFormat* opformat;
+    OperandFormat* output;
+    uint64_t outputIdx;
+    bool branchTake;
 } InstructionInstance;
 
 const extern InstructionInfo* instructionTable[INSTRUCTION_LENGTH][VARIANT_LENGTH];
 
 
+
 const InstructionInfo* pulse_isa_get_instruction_info(uint8_t opcode, uint8_t size);
 
+InstructionInstance* pulse_isa_init_instruction_instance(int size);
+
+void pulse_isa_free_instruction_instance(InstructionInstance* instance);
 
 #endif

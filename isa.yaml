@@ -1,14 +1,37 @@
-- Instructions:
-  - Name: "ADD"
-    Opcode: 0
-    Type: 0
-    Inputs:
-      - Register_I
-      - Register_I
-    exeStage: true
-    memStage: false
-    writeBackStage: True
-    moveStage: false
+- Name: "ADD"
+  Opcode: 0
+  Size: 0
+  InputOperandSize: 2
+  ALU_FN: handle_add_fn
+  UsesMove: false
+  UsesExe: true
+  UsesMem: false
+  UsesSize: true
+  Branch: false
+  Source: [SOURCE_RB_I, SOURCE_RA_I]
+- Name: "ADDU"
+  Opcode: 0
+  Size: 1
+  InputOperandSize: 2
+  ALU_FN: handle_addu_fn
+  UsesMove: false
+  UsesExe: true
+  UsesMem: false
+  UsesSize: true
+  Branch: false
+  Source: [SOURCE_RB_I, SOURCE_RA_I]
+- Name: "ADDF"
+  Opcode: 0
+  Size: 2
+  InputOperandSize: 2
+  ALU_FN: handle_addf_fn
+  UsesMove: false
+  UsesExe: true
+  UsesMem: false
+  UsesSize: true
+  Branch: false
+  Source: [SOURCE_RB_F, SOURCE_RA_I]
+  Move_FN: NULL
 
 
-  
+

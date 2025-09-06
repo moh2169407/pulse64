@@ -18,18 +18,25 @@ void pulse_registers_free(Registers* registers) {
     free(registers);
 }
 
-void pulse_registers_set(Registers* registers, int8_t index, int64_t data) {
+void pulse_registers_int_set(Registers* registers, int8_t index, int64_t data) {
     if (index < 0 || index > REGISTER_SIZE) {
         // TODO signals
     }
     registers->regInt[index] = data;
 }
 
-int64_t pulse_register_get(Registers* registers, int8_t index) {
+int64_t pulse_register_int_get(Registers* registers, int8_t index) {
     if (index < 0 || index > REGISTER_SIZE) {
         // TODO Signals 
     }
     return registers->regInt[index];
+}
+
+uint64_t* pulse_register_int_get_adrs(Registers* registers, int8_t index) {
+    if (index < 0 || index > REGISTER_SIZE) {
+        // TODO Signals 
+    }
+    return &registers->regInt[index];
 }
 
 int64_t pulse_register_get_pc(Registers* registers) {
@@ -47,4 +54,6 @@ int64_t pulse_register_get_ir(Registers* registers) {
 void pulse_register_set_ir(Registers* registers, uint64_t data) {
     registers->ir = data;
 } 
+
+
 

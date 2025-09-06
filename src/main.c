@@ -33,8 +33,14 @@ int main(void) {
     pangea->ram->mem[2] = 0x08;
     pangea->ram->mem[3] = 0x00;
 
+    // setting example register values
+    pulse_registers_int_set(pangea->cpu->registers, 1, 50);
+    pulse_registers_int_set(pangea->cpu->registers, 0, 25);
+
+
     pulse_core_step(pangea->cpu, pangea->ram);
 
 
     pulse_pangea_shut_down(pangea);
+    return 0;
 }
