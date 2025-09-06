@@ -83,7 +83,7 @@ InstructionInstance* pulse_core_decode(Pulse* core) {
                 format.type = OPERAND_REGISTER_I;
             break;
             case SOURCE_RC_F:
-                format.data = pulse_register_float_get_adrs(core->registers, context.RC);
+                format.data = pulse_register_double_get_adrs(core->registers, context.RC);
                 format.type = OPERAND_REGISTER_F;
             break;
             case SOURCE_RB_I:
@@ -91,7 +91,7 @@ InstructionInstance* pulse_core_decode(Pulse* core) {
                 format.type = OPERAND_REGISTER_I;
             break;
             case SOURCE_RB_F:
-                format.data = pulse_register_float_get_adrs(core->registers, context.RB);
+                format.data = pulse_register_double_get_adrs(core->registers, context.RB);
                 format.type = OPERAND_REGISTER_F;
               break;
             case SOURCE_RA_I:
@@ -99,7 +99,7 @@ InstructionInstance* pulse_core_decode(Pulse* core) {
                 format.type = OPERAND_REGISTER_I;
                 break;
             case SOURCE_RA_F:
-                format.data = pulse_register_float_get_adrs(core->registers, context.RA);
+                format.data = pulse_register_double_get_adrs(core->registers, context.RA);
                 format.type = OPERAND_REGISTER_F;
                 break;
             case SOURCE_CONSTANT:

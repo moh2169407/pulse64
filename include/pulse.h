@@ -22,7 +22,7 @@
 struct MemBuses;
 
 typedef struct {
-    Registers* registers;    
+    RegisterFile* registers;    
     MemBuses* membuses;
 } Pulse;
 

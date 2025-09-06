@@ -6,7 +6,7 @@ data = {}
 try:
     with open ("../isa.yaml", "r") as yamlFile:
         data = yaml.safe_load(yamlFile)  
-except FileExistsError:
+except FileNotFoundError:
     print("ERROR: isa file doesn't exisit")
     sys.exit(1)
 
