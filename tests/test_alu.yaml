@@ -1,0 +1,14 @@
+- Name: "alu_add_test"
+  fn: handle_add_fn
+  inType: "int"
+  outType: "int"
+  test_cases: [
+    [1, 5, 6,], [100, 300, 400], [11231, 120120, 131351]
+  ]
+  checkOverFlow: true
+  checkUnderFlow: true
+  checkNullInputs: true
+  checkSwap: true
+
+  
+  
