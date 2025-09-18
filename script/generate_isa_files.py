@@ -26,10 +26,11 @@ with open ("../src/isa_gen.c", "w") as outFile:
         inputOperandSize = data[i]["InputOperandSize"]
         aluFN = data[i]["ALU_FN"] or "NULL"
         moveFn = data[i].get("MOVE_FN") or "NULL"
-        usesMove = str(data[i]["UsesMove"]).lower() or "false"
+        usesMove = str(data[i].get("UsesMove")).lower() or "false"
         usesExe = str(data[i]["UsesExe"]).lower() or "false"
         usesSize = str(data[i]["UsesSize"]).lower() or "false"
         branch = str(data[i]["Branch"]).lower() or "false"
+        usesWb = str(data[i]["UsesWb"]).lower() or "false"
 
         source = None
         if data[i]["Source"] != "NULL":
@@ -54,6 +55,7 @@ with open ("../src/isa_gen.c", "w") as outFile:
         outFile.write(f"\t.usesMove = {usesMove},\n")
         outFile.write(f"\t.usesExe = {usesExe},\n")
         outFile.write(f"\t.branch = {branch},\n")
+        outFile.write(f"\t.usesWb = {usesWb},\n")
         outFile.write(f"\t.source = {source}")
 
         outFile.write("};\n")
@@ -63,7 +65,8 @@ with open ("../src/isa_gen.c", "w") as outFile:
     for i in range(0, len(data)):
         instructionName = data[i]["Name"] + "_Instruction"
         size = data[i]["Size"] or 0
-        outFile.write(f"\t[{i}][{size}] = &{instructionName},\n")
+        opcode = data[i]["Opcode"] or 0
+        outFile.write(f"\t[{opcode}][{size}] = &{instructionName},\n")
     outFile.write("};")
 
     outFile.write("""
@@ -103,4 +106,6 @@ void pulse_isa_free_instruction_instance(InstructionInstance* instance) {
     """)
 
 
-
+    # for i in range(0, len(data)):
+    #     func = data[i].get("ALU_FN")
+    #     print(f'void {func}(void* source1, void* source2, OperandType* out);')
