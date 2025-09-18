@@ -19,6 +19,9 @@ typedef enum {
     SOURCE_RA_I,
     SOURCE_RA_F,
     SOURCE_CONSTANT,
+    SOURCE_RC_VECTOR,
+    SOURCE_RB_VECTOR,
+    SOURCE_RA_VECTOR,
 } Sourcetype;
 
 typedef void (*handler) (void*, void*, OperandFormat*);

@@ -6,7 +6,8 @@ typedef enum {
     OPERAND_REGISTER_I,
     OPERAND_REGISTER_F,
     OPERAND_CONSTANT,
-    OPERAND_MEM
+    OPERAND_MEM,
+    OPERAND_VECTOR,
 } OperandType;
 
 typedef struct {
