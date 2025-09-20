@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ -d "build" ]; then
+    cd build
+if [ ! $# -eq 1 ] && [ "$1" == "-r" ]; then
+    cmake ..
+fi
+    ctest -V
+    cd ..
+fi
