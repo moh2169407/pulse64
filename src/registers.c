@@ -132,3 +132,40 @@ void pulse_register_double_set(RegisterFile* registers, int index, double val) {
     registers->regFloat[index] = val;
 }
 
+
+int64_t pulse_register_vector_get(RegisterFile* registers, int index, int subIndex) {
+    if (index > REG_REGISTER32_END && index >VECTOR_REGISTER_END) {
+        if (index >= 0 && index < 4) {
+            return registers->regInt[index].val.vec[subIndex];
+        }
+    }
+    else {
+        // TODO Signals
+    }
+    return 0;
+}
+
+
+void pulse_register_vector_set(RegisterFile* registers, int index, int subIndex, int64_t val) {
+    if (index > REG_REGISTER32_END && index >VECTOR_REGISTER_END) {
+        if (index >= 0 && index < 4) {
+             registers->regInt[index].val.vec[subIndex] = val;
+        }
+    }
+    else {
+        // TODO Signals
+    }
+}
+
+uint64_t* pulse_register_vector_get_adrs(RegisterFile* registers, int index, int subIndex)  {
+    if (index > REG_REGISTER32_END && index >VECTOR_REGISTER_END) {
+        if (index >= 0 && index < 4) {
+            return &registers->regInt[index].val.vec[subIndex];
+        }
+    }
+    else {
+        // TODO Signals
+    }
+    return 0;
+}
+

@@ -83,4 +83,10 @@ int64_t pulse_register_get_ir(RegisterFile* registers);
 void pulse_register_set_ir(RegisterFile* registers, uint64_t data);
 
 RegisterType pulse_register_get_type(int idx);
+
+
+int64_t pulse_register_vector_get(RegisterFile* registers, int index, int subIndex);
+
+void pulse_register_vector_set(RegisterFile* registers, int index, int subIndex, int64_t val);
+uint64_t* pulse_register_vector_get_adrs(RegisterFile* registers, int index, int subIndex);
 #endif

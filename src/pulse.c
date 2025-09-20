@@ -33,9 +33,9 @@ void pulse_core_free(Pulse* core) {
     free(core);
 }
 
-void pulse_core_run(Pulse* cpu) {
-
-}
+// void pulse_core_run(Pulse* cpu) {
+//
+// }
 
 void pulse_core_step(Pulse* core, Ram* ram) {
     pulse_core_fetch(core, ram);
@@ -105,6 +105,18 @@ InstructionInstance* pulse_core_decode(Pulse* core) {
             case SOURCE_CONSTANT:
                 format.data = &context.Const;
                 format.type = OPERAND_CONSTANT;
+              break;
+            case SOURCE_RC_VECTOR:
+                format.data = pulse_register_vector_get_adrs(core->registers, context.RC, 0);
+                format.type = OPERAND_VECTOR;
+            break;
+            case SOURCE_RB_VECTOR:
+                format.data = pulse_register_vector_get_adrs(core->registers, context.RB, 0);
+                format.type = OPERAND_VECTOR;
+            break;
+            case SOURCE_RA_VECTOR:
+                format.data = pulse_register_vector_get_adrs(core->registers, context.RA, 0);
+                format.type = OPERAND_VECTOR;
               break;
             }
     instance->opformat[i] = format; 
