@@ -1,3 +1,4 @@
+*** Cloned from https://github.com/rxi/log.c
 # log.c
 A simple logging library implemented in C99
 
