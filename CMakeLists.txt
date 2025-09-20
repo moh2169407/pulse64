@@ -30,9 +30,15 @@ target_include_directories(pulse64 PUBLIC include)
 target_link_libraries(pulse64 PRIVATE log)
 target_include_directories(pulse64 PUBLIC lib/logger/src)
 
-
+add_custom_command(
+    OUTPUT ${CMAKE_SOURCE_DIR}/tests/test_alu_gen.c
+    COMMAND ${PYTHON_VENV} ${CMAKE_SOURCE_DIR}/script/generate_alu_test_files.py
+    DEPENDS ${CMAKE_SOURCE_DIR}/tests/test_alu.yaml ${CMAKE_SOURCE_DIR}/script/generate_alu_test_files.py
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/script
+    COMMENT "Generating alu tests from test_alu.yaml"
+)
 # Test Executables
-add_executable(test_alu tests/test_alu.c src/alu.c)
+add_executable(test_alu tests/test_alu_gen.c src/alu.c)
 target_link_libraries(test_alu PRIVATE log)
 target_compile_options(test_alu PRIVATE -g )#-Wall -Wextra -Werror)
 target_include_directories(test_alu PUBLIC include)
