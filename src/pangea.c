@@ -22,9 +22,9 @@ void pulse_pangea_shut_down(Pangea* pangea) {
     free(pangea);
 }
 
-void  pulse_pangea_main_loop(Pangea* pangea) {
-    pulse_core_run(pangea->cpu);
-}
+// void  pulse_pangea_main_loop(Pangea* pangea) {
+//     pulse_core_run(pangea->cpu);
+// }
 
 MemBuses* pulse_pangea_init_mem_buses() {
     MemBuses* memBuses = xmalloc(sizeof(*memBuses));

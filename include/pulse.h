@@ -35,14 +35,12 @@ typedef struct {
     int16_t Const;
 } InstruContext;
 
-
-
 Pulse* pulse_core_init(MemBuses* membuses);
 
 void pulse_core_free(Pulse* core);
 
 
-void pulse_core_run(Pulse* cpu);
+// void pulse_core_run(Pulse* cpu);
 
 void pulse_core_step(Pulse* core, Ram* ram);
 
