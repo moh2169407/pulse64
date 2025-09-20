@@ -4,7 +4,7 @@
 #include "operand.h"
 #include "pangea.h"
 
-#include "../../svec/svec.h"
+#include "svec.h"
 #include "ram.h"
 #include "register.h"
 #include <assert.h>

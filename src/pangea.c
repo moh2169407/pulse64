@@ -3,7 +3,7 @@
 #include "pulse.h"
 #include "ram.h"
 
-#include "../../svec/svec.h"
+#include "svec.h"
 
 
 Pangea* pulse_pangea_boot() {

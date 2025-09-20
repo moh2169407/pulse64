@@ -1,5 +1,5 @@
 #include "bus.h"
-#include "../../svec/svec.h"
+#include "svec.h"
 
 
 Bus* pulse_bus_init() {

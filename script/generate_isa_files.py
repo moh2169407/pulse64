@@ -12,7 +12,7 @@ except FileNotFoundError:
 
 with open ("../src/isa_gen.c", "w") as outFile:
     outFile.write("#include \"isa_gen.h\" \n")
-    outFile.write("#include \"../../svec/svec.h\" \n")
+    outFile.write("#include \"svec.h\" \n")
     outFile.write("\n")
 
     for i in range(0, len(data)):

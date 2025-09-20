@@ -1,5 +1,5 @@
 #include "ram.h"
-#include "../../svec/svec.h"
+#include "svec.h"
 
 #include <assert.h>
 #include "pangea.h"

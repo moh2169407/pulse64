@@ -1,7 +1,7 @@
 #include "log.h"
 #include "register.h"
 
-#include "../../svec/svec.h"
+#include "svec.h"
 
 RegisterFile* pulse_registers_init() {
     RegisterFile* regFile = xmalloc(sizeof(*regFile));
