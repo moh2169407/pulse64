@@ -12,6 +12,7 @@ with open ("../tests/test_alu_gen.c" , "w") as outFile:
     outFile.write("#include \"alu.h\"\n")
     outFile.write("#include \"log.h\"\n")
     outFile.write("#include <stdbool.h>\n")
+    outFile.write("#include <stdint.h>\n")
     outFile.write("\n\n")
 
     outFile.write("bool isFailing = false;\n")
@@ -41,7 +42,7 @@ with open ("../tests/test_alu_gen.c" , "w") as outFile:
         i = 0
         for case in cases:
             outFile.write("\n")
-            outFile.write(f"    // test case {i}:\n")
+            outFile.write(f"    // test case {i + 1}:\n")
             outFile.write(f"    source1 = {case[0]};\n")
             outFile.write(f"    source2 = {case[1]};\n")
 
@@ -54,8 +55,13 @@ with open ("../tests/test_alu_gen.c" , "w") as outFile:
             outFile.write(f"        log_trace(\"{name} (test case: {i}) passed ✅\");\n")
             outFile.write("    }\n")
 
-
             i += 1
+
+        if checkUnderFlow:
+            outFile.write(f"    // test case underflow:\n")
+            if inputType == "int64_t":
+                outFile.write(f"    source1 = INT_MIN64;\n") 
+                outFile.write(f"    source2 = 1;\n") 
         outFile.write("}\n\n\n");
 
     outFile.write("int main(void) {\n")
